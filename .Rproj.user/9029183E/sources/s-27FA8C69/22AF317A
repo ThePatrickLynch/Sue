@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1530527508253.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "22AF317A",
+    "lastKnownWriteTime" : 1427807678,
+    "last_content_update" : 1427807678,
+    "path" : "D:/Data/github/R-General/text mining shakespeare.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "106,16",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
