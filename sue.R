@@ -27,20 +27,24 @@ my_abbs <- read.csv("d:/Dropbox/Dropbox/Sue/Source/myabbreviations.csv")
 Key <- rbind(abbreviations, my_abbs)
 
 # words to keep together
-keeps <- c("Virtual Learning Environment", "teaching and learning")
-
+keeps <- c("Virtual Learning Environment", "teaching and learning", 
+           "distance learning", "point of view", "")
 
 ############################################
 # Read files
 ############################################
 #dat1 <- read.transcript(file.path(path,"MTPD-DM.docx"), col.names = qcv(person, dialogue))  #qcv - quick character vector from qdap
 
-
-dir_map(path)
-
+# dir_map(path) # generater code to read in whole directory
+# pasted code below
+dat1 <- read.transcript("d:/Dropbox/Dropbox/Sue/raw/MTPD-DM.docx", col.names = c("person", "dialogue"), skip = 0)
+dat2 <- read.transcript("d:/Dropbox/Dropbox/Sue/raw/STPM-MS.docx", col.names = c("person", "dialogue"), skip = 0)
+dat3 <- read.transcript("d:/Dropbox/Dropbox/Sue/raw/WTPR-RW.docx", col.names = c("person", "dialogue"), skip = 0)
 
 #check_spelling_interactive(dat1$dialogue)
 
+# stick together
+dat <- rbind(dat1, dat2, dat3)
 
 
 
@@ -49,24 +53,26 @@ dir_map(path)
 # tidy up text
 ############################################
 
-dat1$dialogue <- replace_abbreviation(dat1$dialogue, Key)
-dat1$dialogue <- scrubber(dat1$dialogue, num2word = T, fix.comma = T, fix.space = T)
-dat1$dialogue <- replace_number(dat1$dialogue) # 1 = one
-dat1$dialogue <- replace_contraction(dat1$dialogue) # it's = itis ...
-dat1$dialogue <- space_fill(dat1$dialogue, keeps)  # words to keep together spaces become ~~
-dat1$dialogue <- incomplete_replace(dat1$dialogue) 
-dat1$dialogue <- bracketX(dat1$dialogue, "square")
+dat$dialogue <- replace_abbreviation(dat$dialogue, Key)
+dat$dialogue <- scrubber(dat$dialogue, num2word = T, fix.comma = T, fix.space = T)
+dat$dialogue <- replace_number(dat$dialogue) # 1 = one
+dat$dialogue <- replace_contraction(dat$dialogue) # it's = itis ...
+dat$dialogue <- space_fill(dat$dialogue, keeps)  # words to keep together spaces become ~~
+dat$dialogue <- incomplete_replace(dat$dialogue) 
+dat$dialogue <- bracketX(dat$dialogue, "square")
+
+
 
 #dat1$dialogue <- strip(dat1$dialogue, lower=F)
 
 # split by person
-interviewer <- split(dat1, dat1$person)[['ME']]
-interviewee <- split(dat1, dat1$person!='ME')[['TRUE']]
+interviewer <- split(dat, dat$person)[['ME']]
+interviewee <- split(dat, dat$person!='ME')[['TRUE']]
 
 interviewee$dialogue <- rm_stopwords(interviewee$dialogue, Top200Words)
 interviewee_words <- bag_o_words(interviewee$dialogue, lower=F)
 
-
+ngrams(dat$person, dat$dialogue, 2)
 
 # explore
 #ngrams()
